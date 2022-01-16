@@ -13,14 +13,25 @@ const Home = () => {
       id: 3,
     },
   ]);
+
+  // Define the fn here, we can interact with the data directly and pass the fn through as a prop
+  // Create a prop called handle Delete and set it too the handle delete fn.
+  const handleDelete = (id) => {
+    /* Using the filter method to filter the arr, then temp store in newBlogs.
+    filter returns a new filtered array. - we're passing in the id we want to remove so we want fileter to be true if the id doesnt match our id, we want to keep that in the arr, false if it does match it.   */
+    const newBlogs = blogs.filter((blog) => blog.id !== id);
+    setBlogs(newBlogs);
+  };
+  /* Our condition will be true if the id in the blog doesnt match the id argument, so it will remsin in the arr. False if it does match it and filtered out. The new arr (all that were true) will then be stored in newBlogs*/
+
   /* Using the map method we can loop through an array and return some template for each item. The method invokes a callback fn for each item, and returns template for each. */
   return (
     <div className="home">
-      <BlogList blogs={blogs} title="All Blogs" />
-      <BlogList
+      <BlogList blogs={blogs} title="All Blogs" handleDelete={handleDelete} />
+      {/* <BlogList
         blogs={blogs.filter((blog) => blog.author === "mario")}
         title="Mario's Blogs"
-      />
+      /> */}
     </div>
   );
 };
