@@ -2,7 +2,9 @@
 const BlogList = ({ blogs, title, handleDelete }) => {
   /* The data is in Home, as is the state. We need to use the setBlogs method to update the state, not mutate the array or edit the blogs prop.
 const handleDelete = (id) => {
-   therefore it is better to define this fn in the Home component. and accept it as a prop here - line 2} */
+   therefore it is better to define this fn in the Home component. and accept it as a prop here - line 2} 
+   
+   - now were invoking the handleDel fn - onClick - which is defined inside the parent Home component*/
 
   return (
     <div className="blog-list">
