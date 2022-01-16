@@ -8,11 +8,6 @@ const Home = () => {
   /* Change this state with a button */
   const [name, setName] = useState("mario");
 
-  const handleDelete = (id) => {
-    const newBlogs = blogs.filter((blog) => blog.id !== id);
-    setBlogs(newBlogs);
-  };
-
   useEffect(() => {
     // fetching the data when the component first renders- get request to localhost:8000
     async function fetchData() {
@@ -32,9 +27,7 @@ const Home = () => {
   return (
     <div className="home">
       {/* <BlogList blogs={blogs} title="All Blogs" handleDelete={handleDelete} /> */}
-      {blogs && (
-        <BlogList blogs={blogs} title="All Blogs" handleDelete={handleDelete} />
-      )}
+      {blogs && <BlogList blogs={blogs} title="All Blogs" />}
     </div>
   );
 };
