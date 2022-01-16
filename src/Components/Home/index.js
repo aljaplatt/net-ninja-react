@@ -23,8 +23,13 @@ const Home = () => {
   useEffect(() => {
     console.log("useEffect ran");
     console.log("name");
-    // we can access state inside useEffect - changing state here can cause an infinite loop of re-renders. change state - render - state change - render etc - [dependency arr] - if empty, will only run once on first render. By putting name in the arr, useEffect will track name for changes - when its state changes - the setName fn will run - name is now a dependency.
-    // when we click other buttons, the screen will re-render but the fn wont run, only when the button with the setName fn attached is clicked will useEffect run.
+    // we can access state inside useEffect - changing state here can cause an infinite
+    // loop of re-renders. change state - render - state change - render etc -
+    //[dependency arr] - if empty, will only run once on first render. By putting
+    // name in the arr, useEffect will track name for changes - when its state changes
+    //- the setName fn will run - name is now a dependency.
+    // - when we click other buttons, the screen will re-render but the fn wont run,
+    // only when the button with the setName fn attached is clicked will useEffect run.
   }, [name]);
 
   return (
