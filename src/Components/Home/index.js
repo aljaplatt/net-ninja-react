@@ -5,28 +5,35 @@ import BlogList from "../BlogList";
 // using set blogs
 const Home = () => {
   const [blogs, setBlogs] = useState(null);
-  /* Change this state with a button */
-  const [name, setName] = useState("mario");
+  /* State for fetch loading message */
+  const [isPending, setIsPending] = useState(true);
 
   useEffect(() => {
-    // fetching the data when the component first renders- get request to localhost:8000
-    async function fetchData() {
-      const response = await fetch(`http://localhost:8000/blogs`);
-      // returns response object
-      console.log(response);
-      const fetchData = await response.json();
-      console.log({ fetchData });
-      // Now we update state with this data by passing fetchData in to setBlogs.
-      setBlogs(fetchData);
-    }
-    fetchData();
+    // timeout is simulating real fetch - do not use irl
+    setTimeout(() => {
+      // fetching the data when the component first renders- get request to localhost:8000
+      async function fetchData() {
+        const response = await fetch(`http://localhost:8000/blogs`);
+        // returns response object
+        console.log(response);
+        const fetchData = await response.json();
+        console.log({ fetchData });
+        // Now we update state with this data by passing fetchData in to setBlogs.
+        setBlogs(fetchData);
+        // fetch is complete - remove isPending mess/change state
+        setIsPending(false);
+      }
+      fetchData();
+    }, 1000);
   }, []);
 
   // Once we've updated the state and it has a value, it passing the blog data to
   // the BlogList, which can map through them and update/render the DOM.
   return (
     <div className="home">
-      {/* <BlogList blogs={blogs} title="All Blogs" handleDelete={handleDelete} /> */}
+      {/* Conditional template - only when isPending is true - show div mess*/}
+      {isPending && <div>Please wait a moment...</div>}
+      {/* <BlogList blogs={blogs} title="All Blogs" /> */}
       {blogs && <BlogList blogs={blogs} title="All Blogs" />}
     </div>
   );
