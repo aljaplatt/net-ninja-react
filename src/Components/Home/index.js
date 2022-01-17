@@ -7,6 +7,8 @@ const Home = () => {
   const [blogs, setBlogs] = useState(null);
   /* State for fetch loading message */
   const [isPending, setIsPending] = useState(true);
+  // store error in state
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     // timeout is simulating real fetch - do not use irl
@@ -14,6 +16,13 @@ const Home = () => {
       // fetching the data when the component first renders- get request to localhost:8000
       async function fetchData() {
         const response = await fetch(`http://localhost:8000/blogs`);
+        // if the response is not ok - if this is true...throw error
+        // this is then caught in the catch block.
+        // this can help if our resquest is denied, endpoint doesnt exist
+        // catch block not enough, response is sent, but no data/different status
+        if (!response.ok) {
+          throw Error("Data is unavailable");
+        }
         // returns response object
         console.log(response);
         const fetchData = await response.json();
@@ -22,8 +31,17 @@ const Home = () => {
         setBlogs(fetchData);
         // fetch is complete - remove isPending mess/change state
         setIsPending(false);
+        // remove error message if the request is successful
+        setError(null);
       }
-      fetchData();
+
+      fetchData().catch((err) => {
+        // will catch network errors - cannot connect to server
+        // console.log(err.message); - now we can use setState
+        // setIsPending false - will now not show loading message - it's unavailable
+        setIsPending(false);
+        setError(err.message);
+      });
     }, 1000);
   }, []);
 
@@ -31,6 +49,8 @@ const Home = () => {
   // the BlogList, which can map through them and update/render the DOM.
   return (
     <div className="home">
+      {/* now if we have a value for error, it will be displayed, however loading mess still shows */}
+      {error && <div>{error}</div>}
       {/* Conditional template - only when isPending is true - show div mess*/}
       {isPending && <div>Please wait a moment...</div>}
       {/* <BlogList blogs={blogs} title="All Blogs" /> */}
